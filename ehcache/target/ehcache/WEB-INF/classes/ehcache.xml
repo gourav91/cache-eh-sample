@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<ehcache>
+
+	<!-- By default, Ehcache stored the cached files in temp folder. -->
+	
+	<diskStore path="java.io.tmpdir" />
+
+	<!-- Sample cache named cacheStore This cache contains a maximum in memory 
+	of 10000 elements, and will expire an element if it is idle for more than 
+	5 minutes and lives for more than 10 minutes. If there are more than 10000 
+	elements it will overflow to the disk cache, which in this configuration 
+	will go to wherever java.io.tmp is defined on your system. On a standard 
+	Linux system this will be /tmp" -->
+	<!-- epg cache -->
+	<cache 
+			name="epgcache" 
+			maxElementsInMemory="2" 
+			eternal="true"
+			overflowToDisk="false" 
+			timeToIdleSeconds="120" 
+			timeToLiveSeconds="120"
+			memoryStoreEvictionPolicy="LFU"
+			statistics="true" >
+	
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+					replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	
+	  	<bootstrapCacheLoaderFactory 
+     		class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+     		
+     	<cacheEventListenerFactory 
+     		class="com.hsc.ott.api.cache.HSCCacheListenerFactory" 
+     		listenFor="all"/>
+	</cache>
+	
+	<!-- vod cache -->
+		<cache 
+			name="vodcache" 
+			maxElementsInMemory="2" 
+			eternal="true"
+			overflowToDisk="false" 
+			timeToIdleSeconds="120" 
+			timeToLiveSeconds="120"
+			memoryStoreEvictionPolicy="LFU"
+			statistics="true" >
+		
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+					replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+	
+	  	<bootstrapCacheLoaderFactory 
+     		class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+     		
+     	<cacheEventListenerFactory 
+     		class="com.hsc.ott.api.cache.HSCCacheListenerFactory" 
+     		listenFor="all"/>
+     		 
+	</cache>
+	<!-- api cache -->
+	<cache 
+			name="apicache" 
+			maxElementsInMemory="2" 
+			eternal="true"
+			overflowToDisk="false" 
+			timeToIdleSeconds="120" 
+			timeToLiveSeconds="120"
+			memoryStoreEvictionPolicy="LFU"
+			statistics="true" >
+
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+					replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+  		<bootstrapCacheLoaderFactory 
+   		    class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+   		    
+   	 	<cacheEventListenerFactory 
+     		class="com.hsc.ott.api.cache.HSCCacheListenerFactory" 
+     		listenFor="all"/>
+	</cache>
+	
+	<!-- user cache for user operations-->
+	<cache 
+			name="usercache" 
+			maxElementsInMemory="2" 
+			eternal="true"
+			overflowToDisk="false" 
+			timeToIdleSeconds="120" 
+			timeToLiveSeconds="120"
+			memoryStoreEvictionPolicy="LFU"
+			statistics="true" >
+
+		<cacheEventListenerFactory
+			class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+			properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,
+				replicateUpdatesViaCopy=false, replicateRemovals=true "/>
+
+  		<bootstrapCacheLoaderFactory 
+    		class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory" />
+    		
+    	<cacheEventListenerFactory 
+     		class="com.hsc.ott.api.cache.HSCCacheListenerFactory" 
+     		listenFor="all"/>
+	</cache>
+	<!-- For RMI replication (Setting the peer provider factory) -->
+	
+	<cacheManagerPeerProviderFactory
+			class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+			properties="peerDiscovery=manual, rmiUrls=//localhost:40002/apicache" />
+
+	 For RMI replication (Setting the peer listener factory)
+	 
+	<cacheManagerPeerListenerFactory
+        	class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
+       		properties="hostName=localhost, port=40001, socketTimeoutMillis=2000" />
+</ehcache>

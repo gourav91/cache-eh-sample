@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Title: ehcache
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: e01155
+Implementation-Vendor-Id: com.hsc.ehcache
+Build-Jdk: 1.8.0_77
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+
